@@ -33,6 +33,15 @@ var gameOfLife = {
       and pass into func, the cell and the cell's x & y
       coordinates. For example: iteratorFunc(cell, x, y)
     */
+    console.log(iteratorFunc);
+
+    for(var w=0 ; w<this.width ; w++) {
+      for(var h=0 ; h<this.height ; h++) {
+        var currentCell = document.getElementById(w + '-' + h);
+        iteratorFunc(currentCell,w,h);
+      }
+    }
+
   },
   
   setupBoardEvents: function() {
@@ -49,11 +58,16 @@ var gameOfLife = {
     // EXAMPLE FOR ONE CELL
     // Here is how we would catch a click event on just the 0-0 cell
     // You need to add the click event on EVERY cell on the board
+    // this.forEachCell(onCellClick);
+    this.forEachCell(function(cell) {
+      cell.addEventListener('click',onCellClick);
+    });
     
-    var onCellClick = function (e) {
-      // QUESTION TO ASK YOURSELF: What is "this" equal to here?
+    function onCellClick(e) {
+      // QUESTION TO ASK YOURSELF: What is "this" equal to here?  --> the clicked cell ?
       
       // how to set the style of the cell when it's clicked
+
       if (this.getAttribute('data-status') == 'dead') {
         this.className = "alive";
         this.setAttribute('data-status', 'alive');
@@ -63,8 +77,8 @@ var gameOfLife = {
       }
     };
     
-    var cell00 = document.getElementById('0-0');
-    cell00.onclick = onCellClick;
+    // var cell00 = document.getElementById('0-0');
+    // cell00.onclick = onCellClick;
   },
 
   step: function () {
@@ -76,6 +90,7 @@ var gameOfLife = {
     // You need to:
     // 1. Count alive neighbors for all cells
     // 2. Set the next state of all cells based on their alive neighbors
+    
     
   },
 
