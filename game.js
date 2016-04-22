@@ -24,6 +24,11 @@ var gameOfLife = {
     
     // once html elements are added to the page, attach events to them
     this.setupBoardEvents();
+
+    // sets an even listener for the 'step' button
+
+    var setButton = document.getElementById('step_btn');
+    setButton.addEventListener('click', gameOfLife.step.bind(gameOfLife));
   },
 
   forEachCell: function (iteratorFunc) {
@@ -82,6 +87,7 @@ var gameOfLife = {
   },
 
   step: function () {
+
     // Here is where you want to loop through all the cells
     // on the board and determine, based on it's neighbors,
     // whether the cell should be dead or alive in the next
@@ -90,7 +96,57 @@ var gameOfLife = {
     // You need to:
     // 1. Count alive neighbors for all cells
     // 2. Set the next state of all cells based on their alive neighbors
-    
+
+
+    this.forEachCell(function(cell, w, h){
+      var aliveNeighbors = 0;
+      var neighbors = [];
+
+      var cell1 = document.getElementById(w + "-" + (h - 1));
+      neighbors.push(cell1);
+      var cell2 = document.getElementById((w + 1) + "-" + h);
+      neighbors.push(cell2);
+      var cell3 = document.getElementById(w + "-" + (h + 1));
+      neighbors.push(cell3);
+      var cell4 = document.getElementById((w - 1) + "-" + h);
+      neighbors.push(cell4);
+      var cell5 = document.getElementById((w + 1) + "-" + (h - 1));
+      neighbors.push(cell5);
+      var cell6 = document.getElementById((w+1) + "-" + (h - 1));
+      neighbors.push(cell6);
+      var cell7 = document.getElementById((w-1) + "-" + (h+1));
+      neighbors.push(cell7);
+      var cell8 = document.getElementById((w-1) + "-" + (h - 1));
+      neighbors.push(8);
+
+
+      for(var i = 0; i < neighbors.length; i++){
+        if(neighbors[i]){
+          if(neighbors[i].className === 'alive'){
+            aliveNeighbors++;
+          }
+        }
+      }
+
+      if(cell.className === 'alive' && (aliveNeighbors === 2 || aliveNeighbors ===3)){
+        console.log("TEST1")
+        cell.className = 'alive';
+        cell.setAttribute('data-status', 'alive');
+      } else if (cell.className === 'alive' && aliveNeighbors < 2){
+        console.log("TEST2")
+        cell.className = 'dead';
+        cell.setAttribute('data-status', 'dead');
+      } else if(cell.className === 'alive' && aliveNeighbors > 3){
+        console.log("TEST3")
+        cell.className = 'dead';
+        cell.setAttribute('data-status', 'dead');
+      } else if(cell.className === 'dead' && aliveNeighbors === 3){
+        console.log("TEST4")
+        cell.clasName = 'alive';
+        cell.setAttribute('data-status', 'alive');
+      }
+
+    })
     
   },
 
